@@ -1,0 +1,34 @@
+import math
+import time
+#Formula dR/dT = (Pa*E/4Pl)*s*c
+Pa = .100 #kg/m^3
+Pl = 100
+E = 1
+c = ((.0355)*((4/3)*3.14)*((10*10**-6)**3)*980)/0.00000198 #kg/kg
+s = 2
+time = 0 #s
+v = 0
+d = 0.001 #m
+r = 0 #this value will be attenuated to the diameter in the while loop
+file = open("Snowflake_Cirrus_Params_FallTimeVariation.txt", "w")
+Rini = .5*d
+while s > 3.009*10**-3:
+    time = 0
+    d = 0.001
+    Rini = 0.5*d
+    while d <= 0.01:
+        r = (1/2)*d
+        r = Rini + time*((Pa*E)/(4*Pl))*c*s
+        d = 2*r
+        time = time + 10000000
+        v = math.log10(time)
+        print (d, "meters")
+        print (time, "seconds")
+        file.write(str(d))
+        file.write(",")
+        file.write(str(v))
+        file.write(",")
+        file.write(str(s))
+        file.write("\n")
+    s = s - .01
+file.close()
